@@ -30,6 +30,9 @@ import javax.sql.DataSource;
 public class Database extends HttpServlet {
 
    DataSource datasource;
+   
+   String user;
+   String password;
     
     //For this example you need to create the Mysql Database and the table
     //CREATE TABLE PERSONAS (         NOMBRE VARCHAR(100),          EDAD INT); 
@@ -188,6 +191,15 @@ public class Database extends HttpServlet {
 
         RequestDispatcher paginaError = contexto.getRequestDispatcher("/Ejemplo10/errorSQL.jsp");
         paginaError.forward(request, response);
+    }
+    public boolean existeCuenta(String user, String password) throws SQLException{
+         Connection connection = null;  
+          String sql = "SELECT * FROM login WHERE user='"+user+"' AND password='"+password+"'";
+          connection = datasource.getConnection();
+          Statement st = connection.prepareStatement(sql);
+          ResultSet rs = st.executeQuery(sql);
+          return rs.next();
+              
     }
 
     /**
