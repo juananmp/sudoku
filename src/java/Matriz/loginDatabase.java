@@ -73,7 +73,6 @@ public class loginDatabase extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
             String user = request.getParameter("user");
             String password = request.getParameter("password");
             Database login = new Database();
@@ -83,10 +82,7 @@ public class loginDatabase extends HttpServlet {
                System.out.println("No Entro");
             
             }
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(loginDatabase.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
