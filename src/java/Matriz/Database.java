@@ -30,15 +30,11 @@ import javax.sql.DataSource;
 public class Database extends HttpServlet {
 
    DataSource datasource;
+   Statement statement = null;
+   Connection connection = null;
    
-   String user;
-   String password;
-    
-    //For this example you need to create the Mysql Database and the table
-    //CREATE TABLE PERSONAS (         NOMBRE VARCHAR(100),          EDAD INT); 
-    
-    @Override
-    public void init() throws ServletException {
+   @Override
+    public void init() {
         try {
             InitialContext initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup("jdbc/sudoku2");
@@ -46,7 +42,25 @@ public class Database extends HttpServlet {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+public boolean existeCuenta(String user, String password) {
+        init();
+       try {
+          String query=null;
+           query = "SELECT * FROM login WHERE user like '"+user+"' AND password='"+password+"'";
+           ResultSet resulSet = null;
+           connection = datasource.getConnection();
+           statement = connection.createStatement();
+           resulSet = statement.executeQuery(query);
+           while(resulSet.next()){
+           return true;
+           }
+           return false;
+       } catch (SQLException ex) {
+           System.out.println("No existe el usuario");
+           return false;
+       }
+           
+    }
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -192,15 +206,7 @@ public class Database extends HttpServlet {
         RequestDispatcher paginaError = contexto.getRequestDispatcher("/Ejemplo10/errorSQL.jsp");
         paginaError.forward(request, response);
     }
-    public boolean existeCuenta(String user, String password) throws SQLException{
-         Connection connection = null;  
-          String sql = "SELECT * FROM login WHERE user='"+user+"' AND password='"+password+"'";
-          connection = datasource.getConnection();
-          Statement st = connection.prepareStatement(sql);
-          ResultSet rs = st.executeQuery(sql);
-          return rs.next();
-              
-    }
+    
 
     /**
      * Returns a short description of the servlet.
