@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -76,10 +78,17 @@ public class loginDatabase extends HttpServlet {
             String user = request.getParameter("user");
             String password = request.getParameter("password");
             Database login = new Database();
+            ServletContext contexto = request.getServletContext();
             if(login.existeCuenta(user, password)){
                 System.out.println("Entro");
+                RequestDispatcher anhadirServlet =
+                    contexto.getNamedDispatcher("Matriz");
+            anhadirServlet.forward(request, response);
             }else{
                System.out.println("No Entro");
+               RequestDispatcher paginaError =
+                     contexto.getRequestDispatcher("/error.html");
+             paginaError.forward(request, response);
             
             }
         processRequest(request, response);
