@@ -1,0 +1,3 @@
+
+para la conexion a la bbdd lo que he hecho ha sudo añadir un jar en libraries, el cual he guardado en el proyecto 
+OJO, porque como me daba problemas con ssh: jdbc:mysql://localhost:3306/sudoku2?verifyServerCertificate=false&useSSL=true tuve que añadir a partir de ?
