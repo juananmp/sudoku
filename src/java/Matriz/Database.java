@@ -5,9 +5,14 @@
  */
 package Matriz;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -61,6 +66,7 @@ public boolean existeCuenta(String user, String password) {
        }
            
     }
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -145,18 +151,13 @@ public boolean existeCuenta(String user, String password) {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String nombre = request.getParameter("nombre");
-        int edad;
-        try {
-            edad = Integer.parseInt(request.getParameter("edad"));
-        } catch (NumberFormatException e) {
-            edad = -1;
-        }
+        String user = request.getParameter("user");
+        String password = request.getParameter("password");
         ServletContext contexto = request.getServletContext();
         String query = null;
 
-        query = "insert into PERSONAS values('"
-                + nombre + "'," + edad + ")";
+        query = "insert into login values('"
+                + user + "'," + password + ")";
         Statement statement = null;
         Connection connection = null;
         try {
