@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,7 +17,7 @@ import java.util.Scanner;
  */
 public class ReadSudoku {
     
-    private String empname;
+    private String fila;
     private int columna1;
     private int columna2;
     private int columna3;
@@ -33,15 +35,19 @@ public class ReadSudoku {
          //vamos a leer el fichero linea por linea
          while (input.hasNextLine()) {
              //chequea si hay una linea para leer sino entonces para
-             empname="";
+             fila="";
              String line;
              line = input.nextLine();
              
+             //if the line variable has no data then re-iterative the loop to move on the next line
+             if(line.length() <= 0)
+                 continue;
+             
              try(Scanner data = new Scanner(line)){
                  while(!data.hasNextInt()){
-                     empname += data.next()+ "";
+                     fila += data.next()+ "";
                  }
-                 empname = empname.trim();
+                 fila = fila.trim();
 
                  //get columnas
                  if(data.hasNextInt()){
@@ -68,9 +74,13 @@ public class ReadSudoku {
                  }
              }
              //imprimir por pamtalla la tabla del fichero txt
+//             System.out.println(fila+"\t"+ columna1 +"\t"+ columna2+ "\t"+columna3+ "\t"+columna4+ "\t"+columna5+ "\t"+columna6+ "\t"+columna7+ "\t"+columna8
+//             + "\t"+columna9);
+            //saveData(); //call the method to save data into the database
+             //imprimir por pamtalla la tabla del fichero txt
 //             System.out.println(empname+"\t"+ columna1 +"\t"+ columna2+ "\t"+columna3+ "\t"+columna4+ "\t"+columna5+ "\t"+columna6+ "\t"+columna7+ "\t"+columna8
 //             + "\t"+columna9);
-            saveData(); //call the method to save data into the database
+            //saveData(); //call the method to save data into the database
          }
          //check data
          //Scanner object finishes
@@ -87,7 +97,7 @@ public class ReadSudoku {
                 PreparedStatement pstat = conn.prepareStatement("INSERT INTO plantilla VALUES (?,?,?,?,?,?,?,?,?,?)")){
             
             //siempre se empieza desde 1
-            pstat.setString(1, empname);
+            pstat.setString(1, fila);
             pstat.setInt(2, columna1);
            pstat.setInt(3, columna2);
            pstat.setInt(4, columna3);
@@ -108,6 +118,49 @@ public class ReadSudoku {
         }
        
     }
+    //ahora creo un método que recupera los datos de plantilla de la BBDD
+    public void displayData(){
+        //using a try with resources statement we open a connection to the database by calling
+        //the connect method that i created earlier we also create a statement object for executing sql statements
+        try(Connection  conn = connection();
+            Statement stat = conn.createStatement()){
+            
+            //the execute method of the statement object will return a boolean value after executing the query string
+            boolean hasResulSet = stat.execute("SELECT * FROM plantilla");
+            
+            //we will check for a boolean true before saving the query rsults in a result set object 
+             
+            if(hasResulSet){
+                //if the condition is true then we create a result set object to store the results  of the query by calling
+                
+                ResultSet result = stat.getResultSet();
+            //the method get result set
+            
+            ResultSetMetaData metaData = result.getMetaData();
+            int columnCount = metaData.getColumnCount();
+            
+            for (int i=1; i<=columnCount; i++){
+                System.out.println(metaData.getColumnLabel(i)+"\t\t");
+            }
+                System.out.println();
+                
+                //display data
+                while(result.next()){
+                    //printf OJO no pritln ahora comentaremos el ssaveData
+                    System.out.printf("%-20s%4d%4d%4d%4d%4d%4d%4d%4d%4d%n",result.getString("fila"),result.getInt("columna1"),
+                            result.getInt("columna2"),result.getInt("columna3"),result.getInt("columna4"),result.getInt("columna5"),
+                            result.getInt("columna6"),result.getInt("columna7"),result.getInt("columna8"),result.getInt("columna9"));
+                }
+                
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+    }
+    
+    
     
     
     // create a connection to the database
@@ -131,6 +184,7 @@ class FDemo{//esta clase va a crear un objeto
             
             try{
                 rsu.readData();
+                rsu.displayData();
             }catch(Exception e){
                 System.out.println(e);
             }
