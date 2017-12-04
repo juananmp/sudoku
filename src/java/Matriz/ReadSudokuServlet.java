@@ -40,6 +40,8 @@ public class ReadSudokuServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -48,7 +50,7 @@ public class ReadSudokuServlet extends HttpServlet {
             out.println("<title>Servlet ReadSudokuServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-             try(Connection  conn = connection();
+            try(Connection  conn = connection();
             Statement stat = conn.createStatement()){
                         //the execute method of the statement object will return a boolean value after executing the query string
             boolean hasResulSet = stat.execute("SELECT * FROM plantilla");
@@ -61,24 +63,36 @@ public class ReadSudokuServlet extends HttpServlet {
             //the method get result set
             
             //display data
+                // out.println("<table class=\"sudoku1\">");
+                  out.println(" <form method=\"post\" action=\"/Sudoku/ReadSudokuServlet\" name=\"datos\"><table id=\"grid\">");
                 while(result.next()){
-                    //printf OJO no pritln para formata a los datos de salida ahora comentaremos el ssaveData
-                    //primer % en esa posición se va escribir un valor el valor se encuentra entre las comillas la s:string d:caracter entero nº indica los decimales
-                    //%n salto de línea
-                    //la composción fila-column1-... saltamos la linea (linea anterior) y continuamos con el .next y asi imprimimos todo el sudoku
-                    out.println(result.getInt("columna1"));
-                    out.println(result.getInt("columna2"));
-                    out.println(result.getInt("columna3"));
-                    out.println(result.getInt("columna4"));
-                    out.println(result.getInt("columna5"));
-                    out.println(result.getInt("columna6"));
-                    out.println(result.getInt("columna7"));
-                    out.println(result.getInt("columna8"));
-                    out.println(result.getInt("columna9"));                    
-                    out.println("<br>");
+                     
+                  //  out.println(" <form method=\"post\" action=\"/Sudoku/ReadSudokuServlet\" name=\"datos\"><table id=\"grid\">");
+                    out.println("<tr>");
+                   // out.println("<td><input type=\"text\" name=\"numero"+result.getInt("columna1")+ "\" value=\""+  "</ td>");
+//                    out.println("<td>"+result.getInt("columna2")+ "</td>");
+//                    out.println("<td>"+result.getInt("columna3")+ "</td>");
+//                    out.println("<td>"+result.getInt("columna4")+ "</td>");
+//                    out.println("<td>"+result.getInt("columna5")+ "</td>");
+//                    out.println("<td>"+result.getInt("columna6")+ "</td>");
+//                    out.println("<td>"+result.getInt("columna7")+ "</td>");
+//                    out.println("<td>"+result.getInt("columna8")+ "</td>");
+//                    out.println("<td>"+result.getInt("columna9")+ "</td>");    
+                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna1") + "\"></td>");
+                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna2") + "\"></td>");
+                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna3") + "\"></td>");
+                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna4") + "\"></td>");
+                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna5") + "\"></td>");
+                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna6") + "\"></td>");
+                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna7") + "\"></td>");
+                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna8") + "\"></td>");
+                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna9") + "\"></td>");
+                   
+                    //out.println("<br>");
+                    out.println("</tr>");
                     
                 }
-                
+                out.println("</table>");
             }
             
         } catch (SQLException e) {
