@@ -47,6 +47,7 @@ public class ReadSudokuServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
+            out.println("<link rel=\"stylesheet\" href=\"./Css/cssTabla.css\">");
             out.println("<title>Servlet ReadSudokuServlet</title>");            
             out.println("</head>");
             out.println("<body>");
@@ -64,7 +65,13 @@ public class ReadSudokuServlet extends HttpServlet {
             
             //display data
                 // out.println("<table class=\"sudoku1\">");
-                  out.println(" <form method=\"post\" action=\"/Sudoku/ReadSudokuServlet\" name=\"datos\"><table id=\"grid\">");
+//                  out.println(" <form method=\"post\" action=\"/Sudoku/ReadSudokuServlet\" name=\"datos\">"
+//                          + "<table id=\"grid\" border=\"1\" style=\"border-collapse: collapse;>");
+                  
+out.println("<table id=\"grid\" >");
+                //out.println("<link href= src/web/Css/cssTabla.css" +"rel=\"stylesheet\" type=\"text/css\">");
+                
+                
                 while(result.next()){
                      
                   //  out.println(" <form method=\"post\" action=\"/Sudoku/ReadSudokuServlet\" name=\"datos\"><table id=\"grid\">");
@@ -78,15 +85,15 @@ public class ReadSudokuServlet extends HttpServlet {
 //                    out.println("<td>"+result.getInt("columna7")+ "</td>");
 //                    out.println("<td>"+result.getInt("columna8")+ "</td>");
 //                    out.println("<td>"+result.getInt("columna9")+ "</td>");    
-                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna1") + "\"></td>");
-                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna2") + "\"></td>");
-                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna3") + "\"></td>");
-                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna4") + "\"></td>");
-                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna5") + "\"></td>");
-                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna6") + "\"></td>");
-                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna7") + "\"></td>");
-                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna8") + "\"></td>");
-                     out.println("<td><input type=\"text\" name=\"numero" + "\" value=\"" + result.getInt("columna9") + "\"></td>");
+                     out.println("<td class=\"cell\"><input type=\"text\" maxlength=\"1\" name=\"numero" + "\" value=\"" + result.getInt("columna1") + "\"></td>");
+                     out.println("<td class=\"cell\"><input type=\"text\" maxlength=\"1\" name=\"numero" + "\" value=\"" + result.getInt("columna2") + "\"></td>");
+                     out.println("<td class=\"cell\"><input type=\"text\" maxlength=\"1\" name=\"numero" + "\" value=\"" + result.getInt("columna3") + "\"></td>");
+                     out.println("<td class=\"cell\"><input type=\"text\" maxlength=\"1\" name=\"numero" + "\" value=\"" + result.getInt("columna4") + "\"></td>");
+                     out.println("<td class=\"cell\"><input type=\"text\" maxlength=\"1\" name=\"numero" + "\" value=\"" + result.getInt("columna5") + "\"></td>");
+                     out.println("<td class=\"cell\"><input type=\"text\" maxlength=\"1\" name=\"numero" + "\" value=\"" + result.getInt("columna6") + "\"></td>");
+                     out.println("<td class=\"cell\"><input type=\"text\" maxlength=\"1\" name=\"numero" + "\" value=\"" + result.getInt("columna7") + "\"></td>");
+                     out.println("<td class=\"cell\"><input type=\"text\" maxlength=\"1\" name=\"numero" + "\" value=\"" + result.getInt("columna8") + "\"></td>");
+                     out.println("<td class=\"cell\"><input type=\"text\" maxlength=\"1\" name=\"numero" + "\" value=\"" + result.getInt("columna9") + "\"></td>");
                    
                     //out.println("<br>");
                     out.println("</tr>");
