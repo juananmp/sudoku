@@ -76,7 +76,7 @@ public class ReadSudoku {
              //imprimir por pamtalla la tabla del fichero txt
 //             System.out.println(fila+"\t"+ columna1 +"\t"+ columna2+ "\t"+columna3+ "\t"+columna4+ "\t"+columna5+ "\t"+columna6+ "\t"+columna7+ "\t"+columna8
 //             + "\t"+columna9);
-            //saveData(); //call the method to save data into the database
+            saveData(); //call the method to save data into the database
              //imprimir por pamtalla la tabla del fichero txt
 //             System.out.println(empname+"\t"+ columna1 +"\t"+ columna2+ "\t"+columna3+ "\t"+columna4+ "\t"+columna5+ "\t"+columna6+ "\t"+columna7+ "\t"+columna8
 //             + "\t"+columna9);
@@ -119,37 +119,40 @@ public class ReadSudoku {
        
     }
     //ahora creo un método que recupera los datos de plantilla de la BBDD
-    public void displayData(){
+    public static void displayData(){
         //using a try with resources statement we open a connection to the database by calling
         //the connect method that i created earlier we also create a statement object for executing sql statements
         try(Connection  conn = connection();
             Statement stat = conn.createStatement()){
-            
-            //the execute method of the statement object will return a boolean value after executing the query string
+                        //the execute method of the statement object will return a boolean value after executing the query string
             boolean hasResulSet = stat.execute("SELECT * FROM plantilla");
-            
-            //we will check for a boolean true before saving the query rsults in a result set object 
-             
-            if(hasResulSet){
+                        //we will check for a boolean true before saving the query rsults in a result set object 
+                        if(hasResulSet){
                 //if the condition is true then we create a result set object to store the results  of the query by calling
                 
+                //en el result guardamos la query
                 ResultSet result = stat.getResultSet();
             //the method get result set
             
-            ResultSetMetaData metaData = result.getMetaData();
-            int columnCount = metaData.getColumnCount();
-            
-            for (int i=1; i<=columnCount; i++){
-                System.out.println(metaData.getColumnLabel(i)+"\t\t");
-            }
-                System.out.println();
-                
+//            ResultSetMetaData metaData = result.getMetaData();
+//            int columnCount = metaData.getColumnCount();
+//
+//            for (int i=1; i<=columnCount; i++){
+//                System.out.println(metaData.getColumnLabel(i)+"\t\t");
+//            }
+//                System.out.println();
+
                 //display data
                 while(result.next()){
-                    //printf OJO no pritln ahora comentaremos el ssaveData
+                    //printf OJO no pritln para formata a los datos de salida ahora comentaremos el ssaveData
+                    //primer % en esa posición se va escribir un valor el valor se encuentra entre las comillas la s:string d:caracter entero nº indica los decimales
+                    //%n salto de línea
+                    //la composción fila-column1-... saltamos la linea (linea anterior) y continuamos con el .next y asi imprimimos todo el sudoku
                     System.out.printf("%-20s%4d%4d%4d%4d%4d%4d%4d%4d%4d%n",result.getString("fila"),result.getInt("columna1"),
                             result.getInt("columna2"),result.getInt("columna3"),result.getInt("columna4"),result.getInt("columna5"),
                             result.getInt("columna6"),result.getInt("columna7"),result.getInt("columna8"),result.getInt("columna9"));
+                    
+                    
                 }
                 
             }
@@ -165,7 +168,7 @@ public class ReadSudoku {
     
     // create a connection to the database
     
-    private Connection connection(){
+    private static Connection connection(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
             
