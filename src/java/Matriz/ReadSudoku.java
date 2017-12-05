@@ -76,7 +76,7 @@ public class ReadSudoku {
              //imprimir por pamtalla la tabla del fichero txt
 //             System.out.println(fila+"\t"+ columna1 +"\t"+ columna2+ "\t"+columna3+ "\t"+columna4+ "\t"+columna5+ "\t"+columna6+ "\t"+columna7+ "\t"+columna8
 //             + "\t"+columna9);
-            saveData(); //call the method to save data into the database
+           // saveData(); //call the method to save data into the database
              //imprimir por pamtalla la tabla del fichero txt
 //             System.out.println(empname+"\t"+ columna1 +"\t"+ columna2+ "\t"+columna3+ "\t"+columna4+ "\t"+columna5+ "\t"+columna6+ "\t"+columna7+ "\t"+columna8
 //             + "\t"+columna9);

@@ -12,6 +12,10 @@
         <servlet-name>loginDatabase</servlet-name>
         <servlet-class>Matriz.loginDatabase</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReadSudokuServlet</servlet-name>
+        <servlet-class>Matriz.ReadSudokuServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Matriz</servlet-name>
         <url-pattern>/Matriz</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>loginDatabase</servlet-name>
         <url-pattern>/loginDatabase</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReadSudokuServlet</servlet-name>
+        <url-pattern>/ReadSudokuServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
