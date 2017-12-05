@@ -1,0 +1,106 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 05-dic-2017, 0:28:07
+    Author     : janto
+*/
+
+body{
+    margin: 0;
+    padding: 0;
+    background: url(../matematicas4.jpg);
+    background-size:  auto;
+    background-position: center;
+    font-family: sans-serif;
+    
+}
+
+.loginbox{
+    width: 320px;
+    height: 420px;
+    background: #000;
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    box-sizing: border-box;
+/*    como las letras del h1 nos quedan superpuestas al icono*/
+    padding: 40px 75px;
+}
+
+.avatar{
+    width: 100px;
+    height: 100px;
+/*    estas dos lineas elevan el icono*/
+    position: absolute;
+    top: -50px;
+/*    desplaza el icono hacia la izq y lo centralizo*/
+    left: calc(50% - 50px);
+    
+    
+}
+
+h1{
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.loginbox p{
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+       
+}
+/*separación username y password y entre boton */
+.loginbox input{
+/*    distancia entre ellos*/
+    width: 150px;
+/*    distancia boton a password*/
+    margin-bottom: 20px;
+}
+
+.loginbox input[type ="text"], input[type="password"]{
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    outline: none;
+    height: 60px;
+    color: #fff;
+    font-size: 16px;
+        
+}
+
+.loginbox input[type="submit"]{
+    border: none;
+    outline: none;
+    background: darkorange;
+    height: 30px;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 20px;
+}
+
+/*cambia color el boton cuando arrastramos puntero*/
+.loginbox input[type="submit"]:hover
+{
+    cursor: pointer;
+    background: aqua;
+    color: #000;
+}
+.loginbox a{
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 20px;
+    color: darkgrey;
+}
+
+.loginbox a:hover{
+    
+    color: #ffc107;
+}
