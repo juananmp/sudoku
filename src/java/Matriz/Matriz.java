@@ -31,32 +31,39 @@ public class Matriz extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        Database db = new Database();
 
-        int[][] matriz = {{0, 6, 0, 1, 0, 4, 0, 5, 0}, {0, 0, 8, 3, 0, 5, 6, 0, 0}, {2, 0, 0, 0, 0, 0, 0, 0, 1}, {8, 0, 0, 4, 0, 7, 0, 0, 6}, {0, 0, 6, 0, 0, 0, 3, 0, 0}, {7, 0, 0, 9, 0, 1, 0, 0, 4}, {5, 0, 0, 0, 0, 0, 0, 0, 2}, {0, 0, 7, 2, 0, 6, 9, 0, 0}, {0, 4, 0, 5, 0, 8, 0, 7, 0}};
-        boolean comenzar = false;
+        int[][] matriz = db.plantilla("Plantilla1");
+     
 
+        
         HttpSession cliente = request.getSession();
+        String comprobar = request.getParameter("comprobar"); //Saber si nos piden comprobar, esto siempre escucha y siempre va a ser null hasta que pulse el botón de comprobar 
+          
+        //la primera vez que entre el valor de numeroYposicion va a ser nulo
         if (cliente.getAttribute("numeroYposicion") != null) {//si existe el numeroYposcion es que la partida ha empezado
-            System.out.println("ENTROOOO");
-            comenzar = true; //ya hemos hemos empezado a jugar hemos, ya hay algo que guardar
-            for (int m = 0; m < 9; m++) { //movernos por fila y columna
-                for (int k = 0; k < 9; k++) {
-                    if (comprobar(request.getParameter("numero" + m + k))) {//¿Nos envian algo?
+            
+            for (int m = 0; m < 9; m++) { //movernos por fila y columna 1er piso
+                for (int k = 0; k < 9; k++) { //entramos por habitcion del primer piso
+                    if (comprobar(request.getParameter("numero" + m + k))) {//¿Nos envian algo? y si es un número?
                         //cp los valores que existen y los sobreescribes con los nuevos
+                        //vas habitación por habitación y ves que hay un número en ella, cuando vuelve y dice ya no esta este numero lo sobreescribimos
                         int[][] numeroYposicion = (int[][]) cliente.getAttribute("numeroYposicion");
                         numeroYposicion[m][k] = Integer.parseInt(request.getParameter("numero" + m + k));
                         request.setAttribute("numeroYposicion", numeroYposicion); //aqui se subscribe
-                        System.out.println("NUMERO------------------->" + request.getParameter("numero" + m + k));
-                        int[][] aux = (int[][]) cliente.getAttribute("numeroYposicion");
-                        System.out.println("NUMERO Y POSICION------------------->" + aux[m][k]);
+                        
                     }
 
                 }
             }
-        } else { // si no existe lo inicilazimos
+            //no hay casa la creo
+        } else { // si no existe numeroYposcion lo inicilazimos
+            //se guardan las respuestas del cliente en un int bidimensional
             int[][] numeroYposicion = new int[9][9];
+            //nada mas crear la casa lo lleno de 0s que el usuario no ve
             cliente.setAttribute("numeroYposicion", numeroYposicion);
         }
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 
@@ -64,32 +71,40 @@ public class Matriz extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet Matriz</title>");
+            out.println("<link rel=\"stylesheet\" href=\"./Css/cssTabla.css\">");
             out.println("</head>");
             out.println("<body>");
-            // out.println("numero:"+numero);
-//for (int x=0; x < matriz.length; x++) {
-//out.println("|");
+           
             out.println(" <form method=\"post\" action=\"/Sudoku/Matriz\" name=\"datos\"><table id=\"grid\">");
-//out.println("");
-//for (int y=0; y < matriz[x].length; y++) {
-//out.println(matriz[x][y]);
-//cogemos otra vez la matriz
-            int[][] contenido = (int[][]) request.getAttribute("numeroYposicion");
+
+//cogemos otra vez la matriz, volvemos a coger la casa, puede ser nueva o ya con datos
+            int[][] contenido = (int[][]) cliente.getAttribute("numeroYposicion");
 //estos 2 bucles nos sirven para insertar los inputs, las cajas de texto
-            for (int i = 0; i < matriz.length; i++) {
+//volvemos a recorrer por piso y las habitaciones
+            for (int i = 0; i < matriz.length; i++) {//matriz es matriz plantilla
+                //tr fila
                 out.println("  <tr>");
                 for (int j = 0; j < matriz.length; j++) {
+                    //coumna; fijo la fila y ahora voy de columna en columna
                     if (matriz[i][j] != 0) { //si es distinto de 0 no se puede escribir
-                        out.println("<td><input type=\"text\" value=\"" + matriz[i][j] + "\" disabled></td>");
+                        out.println("<td  class=\"cell\"> <input type=\"text\" value=\"" + matriz[i][j] + "\" disabled></td>"); //como ya hemos definido que matriz es la plantilla queremos que inicialmente esos valores esten bloqueados
                     } else {//si es 0 es que ahi deemos escribir
-                        if (cliente.getAttribute("numeroYposicion") != null && comenzar) {
-                            if (comprobar(Integer.toString(contenido[i][j]))) { //si hay contenido y ha 
-//comenzado la aprtida entonces ya empezamos a insertar los valores guardados
-                                out.println("<td><input type=\"text\" name=\"numero" + i + "" + j + "\" value=\"" + contenido[i][j] + "\"></td>");
-
+                        //dentro del else comprobamos si hemos escrito algo ya o no y si decidimos comprobar pintarlo en verde o rojo
+         //si casa no esta vacia y la habitacion no tiene 0
+                        if (contenido != null && contenido[i][j] != 0) {
+                            //comprobar es saber si es un número 
+                            // && contenido[i][j]<1 && contenido[i][j]>9
+                            if (comprobar(Integer.toString(contenido[i][j]))&& contenido[i][j]>0 && contenido[i][j]<10) { 
+                                if(comprobar!=null){//Si nos han pedido comprobar pinto
+                                out.println("<td  class=\"cell\"><input style=\"background:"+resolver(i, j, contenido[i][j], db.plantilla("solucion1"))+";\" type=\"text\" name=\"numero" + i + "" + j + "\" value=\"" + contenido[i][j] + "\"></td>");
+                                }else{//Si no nos piden comprobar NO pinto
+                                out.println("<td  class=\"cell\"><input type=\"text\" name=\"numero" + i + "" + j + "\" value=\"" + contenido[i][j] + "\"></td>");
+                                }
+                                }else{
+                                out.println("<td  class=\"cell\"><input type=\"text\" name=\"numero" + i + "" + j + "\"></td>");
                             }
                         } else { // sino imprime la caja de texto con el 0
-                            out.println("<td><input type=\"text\" name=\"numero" + i + "" + j + "\"></td>");
+                            out.println("<td  class=\"cell\"><input type=\"text\" name=\"numero" + i + "" + j + "\"></td>");
                         }
                     }
                 }
@@ -98,16 +113,30 @@ public class Matriz extends HttpServlet {
             out.println("</table>");
             out.println("<button>Enviar</button></form>");
             out.print("<br>");
-            out.println("<h1>Servlet Matriz at " + request.getContextPath() + "</h1>");
+            out.println("<form method=\"post\" action=\"/Sudoku/Matriz\" name=\"datos\"><input type=\"hidden\" name=\"comprobar\" value=\"algo\"><button>Comprobar</button></form>");
+            //out.println("<h1>Servlet Matriz at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
+        }
+        // meterselo a un botón 
+        //request.logout();
+    }
+
+    public String resolver(int x,int y, int resp, int[][] solucion) {
+        if(solucion[x][y]==resp){
+            return "green";
+        }else{
+            return "red";
         }
     }
 
     /**
      *      * Handles the HTTP <code>GET</code> method.      *      * @param
-     * request servlet request      * @param response servlet response      *
-     * @throws ServletException if a servlet-specific error occurs      *
+     * request servlet request      * @param response servlet response      
+     *
+     *
+     * @throws ServletException if a servlet-specific error occurs      
+     *
      * @throws IOException if an I/O error occurs      
      */
     @Override
@@ -118,13 +147,17 @@ public class Matriz extends HttpServlet {
 
     /**
      *      * Handles the HTTP <code>POST</code> method.      *      * @param
-     * request servlet request      * @param response servlet response      *
-     * @throws ServletException if a servlet-specific error occurs      *
+     * request servlet request      * @param response servlet response      
+     *
+     *
+     * @throws ServletException if a servlet-specific error occurs      
+     *
      * @throws IOException if an I/O error occurs      
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         processRequest(request, response);
     }
 
