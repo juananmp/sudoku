@@ -208,7 +208,45 @@ public boolean existeCuenta(String user, String password) {
         paginaError.forward(request, response);
     }
     
-
+    //cuando el usuario pide una plantilla de sudoku le redireccionamos a ella
+public int[][] plantilla(String plantilla){
+    init();
+    int[][] i = new int[9][9];
+       try {
+          String query=null;
+           query = "SELECT * FROM "+plantilla;
+           ResultSet resulSet = null;
+           connection = datasource.getConnection();
+           statement = connection.createStatement();
+           resulSet = statement.executeQuery(query);
+           
+           //necesitamos un puntero que es x, hace un bucle y recorre por fila
+           //x++ cambias de columna
+           int x = 0;
+           while(resulSet.next()){
+               //columna y fila
+           //return true;
+           i[x][0] = resulSet.getInt("columna1");
+           i[x][1] = resulSet.getInt("columna2");
+           i[x][2] = resulSet.getInt("columna3");
+           i[x][3] = resulSet.getInt("columna4");
+           i[x][4] = resulSet.getInt("columna5");
+           i[x][5] = resulSet.getInt("columna6");
+           i[x][6] = resulSet.getInt("columna7");
+           i[x][7] = resulSet.getInt("columna8");
+           i[x][8] = resulSet.getInt("columna9");
+           x++;
+           }
+           connection.close();
+           return i;
+           //return false;
+       } catch (SQLException ex) {
+           System.out.println("No existe el usuario");
+           //return false;
+       }
+       return i;
+       
+}
     /**
      * Returns a short description of the servlet.
      *
