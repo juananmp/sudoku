@@ -79,7 +79,7 @@ public class ServletCookie2 extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ServletCookie2 at " + request.getContextPath() + "</h1>");
-             out.println("<form action=\"/Sudoku/Matriz\" name=\"datos\"><input type=\"hidden\" name=\"Comienza a Jugar\" value=\"algo\"><button>Comprobar</button></form>");
+             out.println("<form action=\"/Sudoku/Matriz\" name=\"datos\"><input type=\"hidden\" name=\"comprobar\" value=\"algo\"><button>Comienza a jugar</button></form>");
            
             out.println("</body>");
             out.println("</html>");
