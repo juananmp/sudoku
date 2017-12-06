@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -77,13 +78,28 @@ public class loginDatabase extends HttpServlet {
             throws ServletException, IOException {
             String user = request.getParameter("user");
             String password = request.getParameter("password");
+            String name = request.getParameter("name");
             Database login = new Database();
+            
+            //httpsesision? HttpSession session = request.getSession(); dentro del if  session.setAttribute("user",user) response.sendRedirect("./ProfileServlet ")
             ServletContext contexto = request.getServletContext();
             if(login.existeCuenta(user, password)){
                 System.out.println("Entro");
-                RequestDispatcher anhadirServlet =
-                    contexto.getNamedDispatcher("Matriz");
-            anhadirServlet.forward(request, response);
+                
+//                RequestDispatcher anhadirServlet =
+//                    //contexto.getNamedDispatcher("Matriz");
+//                 //contexto.getRequestDispatcher("/login.html");
+//                contexto.getNamedDispatcher("ServletCookie2");
+//                  anhadirServlet.forward(request, response);
+                 
+        Cookie ck = new Cookie("name", name);
+       
+        response.addCookie(ck);
+      // out.println("<a href='./ServletCookie2'> ServletCookie2</a>"); 
+      //mejor redirect que forwars porque con forward me daba error
+       response.sendRedirect(request.getContextPath() + "/ServletCookie2");
+        
+          
             }else{
                System.out.println("No Entro");
                RequestDispatcher paginaError =
