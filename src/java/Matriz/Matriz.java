@@ -7,6 +7,7 @@ package Matriz;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -112,16 +113,28 @@ public class Matriz extends HttpServlet {
             }
             out.println("</table>");
             out.println("<button>Enviar</button></form>");
+             ServletContext ctx = getServletContext();
+        int totalUsers = (Integer) ctx.getAttribute("totalusers");
+        int currentUsers = (Integer) ctx.getAttribute("currentusers");
+       
+        out.print("<br>total users= " + totalUsers);
+        out.print("<br>current users= " + currentUsers);
             out.print("<br>");
             out.println("<form method=\"post\" action=\"/Sudoku/Matriz\" name=\"datos\"><input type=\"hidden\" name=\"comprobar\" value=\"algo\"><button>Comprobar</button></form>");
             //out.println("<h1>Servlet Matriz at " + request.getContextPath() + "</h1>");
+            out.print("<br>");
+            out.println("  <a href=\"/Sudoku/logOut\">Log Out</a>");
             out.println("</body>");
             out.println("</html>");
         }
         // meterselo a un botón 
         //request.logout();
+        //
+        
+            //cliente.invalidate();
     }
 
+    
     public String resolver(int x,int y, int resp, int[][] solucion) {
         if(solucion[x][y]==resp){
             return "green";
@@ -142,6 +155,7 @@ public class Matriz extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         processRequest(request, response);
     }
 
