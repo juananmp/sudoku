@@ -79,11 +79,12 @@ public class ServletCookie2 extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ServletCookie2 at " + request.getContextPath() + "</h1>");
+             out.println("<form action=\"/Sudoku/Matriz\" name=\"datos\"><input type=\"hidden\" name=\"Comienza a Jugar\" value=\"algo\"><button>Comprobar</button></form>");
+           
             out.println("</body>");
             out.println("</html>");
         }
-      
-     processRequest(request, response);
+       
     }
 //        RequestDispatcher anhadirServlet =
 //        contexto.getNamedDispatcher("Matriz");
