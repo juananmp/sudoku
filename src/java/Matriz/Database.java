@@ -247,6 +247,20 @@ public int[][] plantilla(String plantilla){
        return i;
        
 }
+   @Override
+   public void destroy() {
+        try {
+            statement.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
     /**
      * Returns a short description of the servlet.
      *
