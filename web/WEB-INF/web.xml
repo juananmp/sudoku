@@ -16,6 +16,16 @@
         <servlet-name>ReadSudokuServlet</servlet-name>
         <servlet-class>Matriz.ReadSudokuServlet</servlet-class>
     </servlet>
+    
+    <servlet>
+        <servlet-name>ServletCookie2</servlet-name>
+        <servlet-class>Matriz.ServletCookie2</servlet-class>
+        
+        <init-param>
+            <param-name>saludo</param-name>
+            <param-value>Welcome</param-value>            
+        </init-param>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Matriz</servlet-name>
         <url-pattern>/Matriz</url-pattern>
@@ -32,9 +42,14 @@
         <servlet-name>ReadSudokuServlet</servlet-name>
         <url-pattern>/ReadSudokuServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletCookie2</servlet-name>
+        <url-pattern>/ServletCookie2</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    
 </web-app>
