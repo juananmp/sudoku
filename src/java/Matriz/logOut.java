@@ -29,6 +29,8 @@ public class logOut extends HttpServlet {
         HttpSession cliente = request.getSession();
         cliente.invalidate();
         out.println("Has hecho logOut");
+        out.println("<br>");
+        out.println("<a href=\"loginBonito.html\">Si quieres volver a logearte pulse aqui</a><br>");
         out.close();
         
     }
