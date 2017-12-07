@@ -112,16 +112,16 @@ public class Matriz extends HttpServlet {
                 out.println("</tr>");
             }
             out.println("</table>");
-            out.println("<button>Enviar</button></form>");
-             ServletContext ctx = getServletContext();
+            out.println("<button>Guardar</button></form>");
+             
+            out.println("<form method=\"post\" action=\"/Sudoku/Matriz\" name=\"datos\"><input type=\"hidden\" name=\"comprobar\" value=\"algo\"><button>Comprobar</button></form>");
+            ServletContext ctx = getServletContext();
         int totalUsers = (Integer) ctx.getAttribute("totalusers");
         int currentUsers = (Integer) ctx.getAttribute("currentusers");
        
         out.print("<br>total users= " + totalUsers);
         out.print("<br>current users= " + currentUsers);
             out.print("<br>");
-            out.println("<form method=\"post\" action=\"/Sudoku/Matriz\" name=\"datos\"><input type=\"hidden\" name=\"comprobar\" value=\"algo\"><button>Comprobar</button></form>");
-            //out.println("<h1>Servlet Matriz at " + request.getContextPath() + "</h1>");
             out.print("<br>");
             out.println("  <a href=\"/Sudoku/logOut\">Log Out</a>");
             out.println("</body>");
